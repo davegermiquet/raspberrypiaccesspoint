@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.db import models
 
 class NetworkDevice(models.Model):
-    device = models.CharField(max_length=100, blank=True, default='')
+    device = models.CharField(max_length=100, blank=False)
     
 class WifiNetworks(models.Model):
     wifissid = models.CharField(max_length=100, blank=True, default='')
@@ -14,7 +14,7 @@ class WifiNetworks(models.Model):
 class TypeOfNetwork(models.Model):
     network_type =  models.CharField(max_length=100, blank=True, default='')
 
-class routes(models.Model):
+class Routes(models.Model):
     route_type =  models.CharField(max_length=100, blank=True, default='')
 
 
