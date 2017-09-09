@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+import ConfigParser
 from scapy.all import Ether,IP,UDP,DHCP,BOOTP,get_if_raw_hwaddr,get_if_hwaddr,conf,sniff,sendp
 #from scapy.all import *
 from pyroute2 import IPDB
@@ -66,6 +66,7 @@ class PythonWifiScanner:
 
     def select_network(self,network_path,interfaceNumber):
         print("Selecting network")
+        print("Network path" + network_path)
         return self.supplicant.get_interface(self.net_iface[interfaceNumber].decode()).select_network(network_path)
 
     def add_network(self,network_cfg,interfaceNumber):
@@ -126,9 +127,13 @@ class PythonWifiScanner:
         sendp(packet,iface=inter)
 
 # Start a simple Twisted SelectReactor
+configParser = ConfigParser.RawConfigParser()   
+configParser.read(r'wificonfig.cfg')
 sample_network_cfg = {}
-sample_network_cfg['ssid'] = "Wifi"
-sample_network_cfg['psk'] = "password"
+sample_network_cfg['ssid'] =  configParser.get('accesspoint','ssid')
+sample_network_cfg['psk'] = configParser.get('accesspoint','psk')
+print "Connecting to " + sample_network_cfg['ssid']
+print "with password " + sample_network_cfg['psk']
 reactor = SelectReactor()
 dave=PythonWifiScanner(reactor)
 configpath = dave.add_network(sample_network_cfg,3)
@@ -138,7 +143,5 @@ dhcpObject = dave.get_dhcp_object(3)
 time.sleep(1)
 for dhcpKey in dhcpObject.keys():
     print str(dhcpKey) + ":" + str(dhcpObject[dhcpKey])
-time.sleep(1)
 dave.change_ip(dhcpObject,3)
-
 reactor.stop()
