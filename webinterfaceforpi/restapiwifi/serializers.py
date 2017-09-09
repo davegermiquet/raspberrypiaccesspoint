@@ -1,8 +1,23 @@
 from rest_framework import serializers
-from  restapiwifi.models import NetworkDevice, WifiNetworks, TypeOfNetwork, Routes
+from  restapiwifi.models import NetworkDevice, WifiNetworks, Routes
 
 
-class NetworkDeviceSerializer(serializer.Serializer):
-     id = serializers.IntegerField(read_only=True)
-     device = serializers.CharField(required=True, allow_blank=False, max_length=100)
+class NetworkDeviceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NetworkDevice
+        fields = ('id', 'device')
 
+
+class WifiNetworksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WifiNetworks
+        fields = ('id', 'wifissid', "wifipsk", "wifi_keymgmt")
+
+
+class TypeOfNetworkSerialzier(serializers.ModelSerializer): d
+
+
+class RouteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Routes
+        fields = ('id', 'route_type')
