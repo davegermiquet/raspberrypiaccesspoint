@@ -14,7 +14,9 @@ class WifiNetworksSerializer(serializers.ModelSerializer):
         fields = ('id', 'wifissid', "wifipsk", "wifi_keymgmt")
 
 
-class TypeOfNetworkSerialzier(serializers.ModelSerializer): d
+class TypeOfNetworkSerialzier(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id', 'network_type')
 
 
 class RouteSerializer(serializers.ModelSerializer):
